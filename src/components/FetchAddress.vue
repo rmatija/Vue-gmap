@@ -9,7 +9,6 @@
                 <span>{{receivedAddress}} </span>
                 <span>{{receivedCity}} - {{receivedCounty}}</span>
             </div>
-            
         </div>
     </div>
 </template>
@@ -17,6 +16,7 @@
 <script>
     export default {
         name: 'FetchAddress',
+        
         props: [ 
             'receivedName', 
             'receivedAddress',

@@ -13,7 +13,6 @@
 </template>
 
 <script>
-
 export default {
     name: "FiveDayForecast",
 
@@ -53,10 +52,12 @@ export default {
             this.date = this.myDate.toLocaleString('default', { day: 'numeric' })
             this.month = this.myDate.toLocaleString('default', { month: 'short' })
         },
+
         setToday() {
             this.today = new Date()
             this.isToday =  (this.today.toDateString() == this.myDate.toDateString())
         },
+        
         getWeatherValues() {
             this.minTemp = (Math.round((this.day.main.temp_min) * 10) / 10)
             this.maxTemp = (Math.round((this.day.main.temp_max) * 10) / 10)

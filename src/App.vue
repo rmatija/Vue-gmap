@@ -2,7 +2,7 @@
 <template>
   <div class="container">
     <gmap-map id="map"
-        :center="{lat:currentLocation.lat, lng:currentLocation.lng}"
+        :center="{lat:48.137154, lng:11.576124}"
         :zoom="14"
         ref="map" 
         @idle="filterMarkers()"
@@ -34,7 +34,6 @@
         <weather-forecast
           :key="weatherKey"
           v-bind:weather = 'weather'
-          ref="childWeather"
         ></weather-forecast>
       </div> 
     </div>  
@@ -49,15 +48,16 @@ import FetchAddress from './components/FetchAddress.vue'
 
 export default {
   name: 'App',
+
   components: {
     OpeningHours,
     WeatherForecast,
     FetchAddress
   },
+
   data() {
     return {
       map: null,
-      currentLocation : { lat : 48.137154, lng : 11.576124},
       receivedData: [],
       receivedName: '',
       receivedAddress: '',
@@ -73,9 +73,11 @@ export default {
       receivedDataArray: []
     }
   },
+
   mounted: function() {
       this.geolocation();
   },
+  
   methods: {
     geolocation() {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -85,6 +87,7 @@ export default {
         };
       });
     },
+
     filterMarkers(){
       let bounds = this.$refs.map.$mapObject.getBounds();
       let ne = bounds.getNorthEast();
@@ -103,6 +106,7 @@ export default {
         })
         .catch((error) => console.error(error));
     },
+
     callWeather(marker) {
       axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${marker.location.lat}&lon=${marker.location.lng}&units=metric&appid=988433af8ef3d684a4a72152a6574c21`)
         .then((res) => {
@@ -111,6 +115,7 @@ export default {
         })
         .catch((error) => console.error(error));    
     },
+
     toggleInfo(marker, key) {
       this.receivedName = marker.name;
       this.receivedAddress = marker.address;
@@ -121,14 +126,14 @@ export default {
 
       if (this.infoCurrentKey === key) {
           this.infoOpened = !this.infoOpened;
-          console.log(this.infoCurrentKey)
-          console.log(key)
       } else {
           this.infoOpened = true;
           this.infoCurrentKey = key;
       }
+
       this.callWeather(marker)
     },
+    
     changeIcon(key) {
       return (this.infoCurrentKey === key) ? this.iconActive : this.iconNormal;
     },

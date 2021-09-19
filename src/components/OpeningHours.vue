@@ -14,17 +14,19 @@
 <script>
     export default {
         name: 'OpeningHours',
+
         data() {
             return {
                 opened: 'Open now until 16h.',
                 closed: 'Opens tomorrow at 8h.'
             }
         },
+
         computed: {
             calcOpeningHours() {
                 const date = new Date();
                 const hours = date.getHours();
-
+                
                 return (hours >= 8 && hours < 16) ? this.opened : this.closed;
             }
         }
