@@ -22,10 +22,10 @@
     <div v-if="infoOpened" id="sidebar">
       <div class="adress-time-container">
         <fetch-address
-          v-bind:receivedName = 'receivedName'
-          v-bind:receivedAddress = 'receivedAddress'
-          v-bind:receivedCity = 'receivedCity'
-          v-bind:receivedCounty = 'receivedCounty'
+          :receivedName = 'receivedName'
+          :receivedAddress = 'receivedAddress'
+          :receivedCity = 'receivedCity'
+          :receivedCounty = 'receivedCounty'
         ></fetch-address>
         <opening-hours></opening-hours>
       </div>
@@ -33,7 +33,7 @@
         <h4 class="weather-title">Weather</h4>
         <weather-forecast
           :key="weatherKey"
-          v-bind:weather = 'weather'
+          :weather = 'weather'
         ></weather-forecast>
       </div> 
     </div>  
@@ -58,7 +58,6 @@ export default {
   data() {
     return {
       map: null,
-      receivedData: [],
       receivedName: '',
       receivedAddress: '',
       receivedCity: '',
@@ -67,7 +66,6 @@ export default {
       infoOpened: false,
       iconNormal: { url: require('./assets/ic_pin_normal.png')},
       iconActive: { url: require('./assets/ic_pin_active.png')},
-      selectedKey: '',
       weather: '',
       weatherKey: 0,
       receivedDataArray: []
@@ -121,8 +119,6 @@ export default {
       this.receivedAddress = marker.address;
       this.receivedCity = marker.city;
       this.receivedCounty = marker.county;
-      this.lat = marker.location.lat;
-      this.lng = marker.location.lng;
 
       if (this.infoCurrentKey === key) {
           this.infoOpened = !this.infoOpened;

@@ -4,7 +4,7 @@
             <p class="dark">{{weekDay}} {{date}} {{month}}  <i>{{ isToday ? '(today)' : ''}}</i></p>
             <div class="weather-daily-temp">
                 <p :class="[(minTemp <= 14 && 'blue-background') || (minTemp <= 17 && 'green-background') || (minTemp <= 25 && 'orange-background') || (minTemp > 25 && 'red-background')]">{{   minTemp }}C </p>
-                <p :class="[(maxTemp <= 14 && 'blue-background') || (maxTemp <= 20 && 'green-background') || (maxTemp <= 25 && 'orange-background') || (maxTemp > 25 && 'red-background')]">{{ maxTemp }}C </p>
+                <p :class="[(maxTemp <= 14 && 'blue-background') || (maxTemp <= 17 && 'green-background') || (maxTemp <= 25 && 'orange-background') || (maxTemp > 25 && 'red-background')]">{{ maxTemp }}C </p>
             </div>
         </div>
         <p>{{desc}}</p>
@@ -25,8 +25,8 @@ export default {
             receivedDate: '',
             myDate: '',
             weekDay: '',
-            date: '',
             month: '',
+            date: '',
             today: '',
             isToday: '',
             minTemp: '',
@@ -45,7 +45,6 @@ export default {
 
     methods: {
         getDate() {
-            this.date = this.day
             this.receivedDate = this.day.dt
             this.myDate = new Date(this.receivedDate * 1000)
             this.weekDay = this.myDate.toLocaleString('default', { weekday: 'short' })
