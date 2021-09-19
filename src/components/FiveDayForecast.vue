@@ -16,9 +16,11 @@
 
 export default {
     name: "FiveDayForecast",
+
     props: [
         "day",
     ],
+
     data() {
         return {
             receivedDate: '',
@@ -35,11 +37,13 @@ export default {
             pressure: ''
         }
     },
+
     created() {
         this.getDate()
         this.setToday()
         this.getWeatherValues()
     },
+
     methods: {
         getDate() {
             this.date = this.day
@@ -48,7 +52,6 @@ export default {
             this.weekDay = this.myDate.toLocaleString('default', { weekday: 'short' })
             this.date = this.myDate.toLocaleString('default', { day: 'numeric' })
             this.month = this.myDate.toLocaleString('default', { month: 'short' })
-            
         },
         setToday() {
             this.today = new Date()

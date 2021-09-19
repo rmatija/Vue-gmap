@@ -11,17 +11,21 @@
 
     export default {
         name: 'WeatherForecast',
+
         props: [
             "weather",
         ],
+
         data() {
             return {
                 receivedTodayDate: ''
             }
         },
+
         components: {
             FiveDayForecast
         },
+        
         computed: {
             everyEightIndex: function() {
                 const weatherArray = []
@@ -35,10 +39,4 @@
 </script>
 
 <style scoped>
-    .weather {
-        font-size: 12px;
-        flex: 1 1 auto;
-        display: flex;
-        flex-direction: column;
-    }
 </style>

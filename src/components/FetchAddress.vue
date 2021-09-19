@@ -34,6 +34,7 @@
         display: flex;
         background-color: white;
         color: #6e6e6e;
+        height: 65px;
     }
     .icon {
         display: flex;

@@ -9,9 +9,9 @@
     >
     <div>
       <gmap-marker
-        v-for="(marker,key) in receivedData"
+        v-for="(marker,key) in receivedDataArray"
         :key="key"
-        :position="markerPosition(marker)"
+        :position="marker.location"
         :clickable="true"
         @click="toggleInfo(marker, key)"
         :icon="changeIcon(key)"
@@ -63,22 +63,20 @@ export default {
       receivedAddress: '',
       receivedCity: '',
       receivedCounty: '',
-      lat: '',
-      lng: '',
+      infoCurrentKey: '',
       infoOpened: false,
       iconNormal: { url: require('./assets/ic_pin_normal.png')},
       iconActive: { url: require('./assets/ic_pin_active.png')},
-      icon: '',
       selectedKey: '',
       weather: '',
       weatherKey: 0,
+      receivedDataArray: []
     }
   },
   mounted: function() {
       this.geolocation();
   },
   methods: {
-    
     geolocation() {
       navigator.geolocation.getCurrentPosition((position) => {
         this.currentLocation = {
@@ -98,9 +96,11 @@ export default {
       let swLng = sw.lng();
 
       axios.get(`https://interview.superology.dev/betshops?boundingBox=${neLat},${neLng},${swLat},${swLng}`)
-        .then((response) => {
-          this.receivedData = response.data.betshops
-          })
+        .then((res) => {
+          for( let i = 0; i < res.data.betshops.length; i++) {
+            this.receivedDataArray.push(res.data.betshops[i]);
+          }
+        })
         .catch((error) => console.error(error));
     },
     callWeather(marker) {
@@ -112,29 +112,25 @@ export default {
         .catch((error) => console.error(error));    
     },
     toggleInfo(marker, key) {
-        this.receivedName = marker.name;
-        this.receivedAddress = marker.address;
-        this.receivedCity = marker.city;
-        this.receivedCounty = marker.county;
-        this.lat = marker.location.lat;
-        this.lng = marker.location.lng;
-        if (this.infoCurrentKey == key) {
-            this.infoOpened = !this.infoOpened;
-        } else {
-            this.icon = this.changeIcon(key)
-            this.infoOpened = true;
-            this.infoCurrentKey = key;
-        }
-        this.callWeather(marker)
+      this.receivedName = marker.name;
+      this.receivedAddress = marker.address;
+      this.receivedCity = marker.city;
+      this.receivedCounty = marker.county;
+      this.lat = marker.location.lat;
+      this.lng = marker.location.lng;
+
+      if (this.infoCurrentKey === key) {
+          this.infoOpened = !this.infoOpened;
+          console.log(this.infoCurrentKey)
+          console.log(key)
+      } else {
+          this.infoOpened = true;
+          this.infoCurrentKey = key;
+      }
+      this.callWeather(marker)
     },
     changeIcon(key) {
-        return (this.infoCurrentKey == key) ? this.iconActive : this.iconNormal;
-    }, 
-    markerPosition(marker) {
-      return {
-        lat: marker.location.lat,
-        lng: marker.location.lng
-      }
+      return (this.infoCurrentKey === key) ? this.iconActive : this.iconNormal;
     },
   }
 }
@@ -155,7 +151,7 @@ export default {
 
   #map {
     width: 400px;
-    height: 560px;
+    min-height: 575px;
     border: 2px solid #fff;
     box-shadow: rgb(0 0 0 / 35%) 0px 1px 11px;
   }
@@ -191,8 +187,7 @@ export default {
             flex-direction: column;
         }
 
-        #map {
-          margin: 15px;
+        #map { 
           width: unset;
         }
 

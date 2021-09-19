@@ -25,7 +25,7 @@
                 const date = new Date();
                 const hours = date.getHours();
 
-                return (hours >= 8 && hours < 16) ? this.opened : this.closed
+                return (hours >= 8 && hours < 16) ? this.opened : this.closed;
             }
         }
     }
